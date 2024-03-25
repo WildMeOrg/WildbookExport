@@ -313,14 +313,17 @@ const performFinalSave = async (submitData: SubmitData, originalXlsx: string): P
       try {
 
         if (!haltFinalSaveFlag) {
+          let filename =  annotationRow["Encounter.mediaAsset0"]
+          if (!filename.includes("."))
+          {
+            filename = filename + '.jpg'
+          }
           await downloadCropAndSaveImage(
             annotationRow["Encounter.mediaAsset0.imageUrl"],
             annotationRow["Annotation0.bbox"].match(/\d+/g).map(Number),
             path.join(
               individualIdFolder,
-              `${
-                annotationRow["Encounter.mediaAsset0"]
-              }${path.parse(annotationRow["Encounter.mediaAsset0"]).ext}`,
+              filename,
             ),
           );
         } else {

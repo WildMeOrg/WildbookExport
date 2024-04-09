@@ -199,6 +199,8 @@ const getGroupedAnnotationsFromExcel = ({
         originalRow[`Annotation${i}.MatchAgainst`] !== 'true' 
         || originalRow[`Annotation${i}.ViewPoint`] ==='' 
         || originalRow[`Encounter.mediaAsset${i}.imageUrl`] ===''
+        || originalRow[`Annotation${i}.bbox`] ===''
+        || originalRow[`Annotation${i}.bbox`] ==='null'
       )
       {
         continue;

@@ -199,6 +199,8 @@ const getGroupedAnnotationsFromExcel = ({
         originalRow[`Annotation${i}.MatchAgainst`] !== 'true' 
         || originalRow[`Annotation${i}.ViewPoint`] ==='' 
         || originalRow[`Encounter.mediaAsset${i}.imageUrl`] ===''
+        || originalRow[`Annotation${i}.bbox`] ===''
+        || originalRow[`Annotation${i}.bbox`] ==='null'
       )
       {
         continue;
@@ -212,6 +214,9 @@ const getGroupedAnnotationsFromExcel = ({
       newRow["Annotation0.ViewPoint"] = originalRow[`Annotation${i}.ViewPoint`];
       newRow["Encounter.mediaAsset0.imageUrl"] = originalRow[`Encounter.mediaAsset${i}.imageUrl`];
       newRow["Annotation0.bbox"] = originalRow[`Annotation${i}.bbox`];
+      if (i!==0){
+         newRow["Annotation.extrarow"] = 'true';
+      }
 
       // Handle case if Name0.value not in newRow
       if (newRow["Name0.value"] === undefined) {
@@ -334,6 +339,11 @@ const performFinalSave = async (submitData: SubmitData, originalXlsx: string): P
           ...annotationRow,
           wildExErrorMessage: error.message,
         };
+
+        if (errorAnnotationRow['Annotation.extrarow'] === 'true')
+        {
+            continue;
+        }
 
         if (_.has(errors, annotationsWithId["Name0.value"])) {
           errors[annotationsWithId["Name0.value"]].annotationRows.push(errorAnnotationRow);

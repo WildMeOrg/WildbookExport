@@ -58,7 +58,10 @@ const Dashboard = () => {
     setShowSpinner(false);
 
     if (done.success) {
-      const id = toast.success(done.message);
+      const id = toast.success(done.message, {
+        autoClose: false, // keep error toast until clicked
+        closeOnClick: true, // close on click
+      });
       toast.onChange((payload: ToastItem) => {
         if (payload.id === id && payload.status === "removed") {
           window.location.reload()
@@ -66,7 +69,10 @@ const Dashboard = () => {
       });
     } else {
       done.errorsExcelFilePath && (await actOnXlsx(done.errorsExcelFilePath));
-      toast.error(done.message);
+      toast.error(done.message, {
+        autoClose: false, // keep error toast until clicked
+        closeOnClick: true, // close on click
+      });
     }
   };
 

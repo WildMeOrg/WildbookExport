@@ -1,5 +1,4 @@
 name: Build Wildbook Installers
-
 on:
   push:
     branches:
@@ -8,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -28,22 +27,13 @@ jobs:
         run: npm install
 
       - name: Build the application
-        run: npm run build
-
-      - name: Package the application
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            npm run dist:windows
-          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            npm run dist:mac
-          fi
+        run: npm run make
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.os }}-installer
           path: |
-            dist/*.exe
-            dist/*.dmg
+            out/make/*.exe
+            out/make/*.dmg
+

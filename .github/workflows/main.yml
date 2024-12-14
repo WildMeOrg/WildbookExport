@@ -2,7 +2,7 @@ name: Build Wildbook Installers
 on:
   push:
     branches:
-      - main
+      - devops-build
   pull_request:
 
 jobs:

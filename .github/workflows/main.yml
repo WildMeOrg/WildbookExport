@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 360 # Set the timeout to 6 hours
 
     strategy:
       matrix:

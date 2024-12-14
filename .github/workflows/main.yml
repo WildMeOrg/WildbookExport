@@ -22,6 +22,18 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Ensure setuptools is installed
+        run: |
+          python3 -m ensurepip
+          python3 -m pip install setuptools
+      - name: Set Python for npm
+        run: npm config set python /usr/bin/python3
+
 
       - name: Install dependencies
         run: npm install --save-dev appdmg

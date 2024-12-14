@@ -4,15 +4,17 @@ on:
     branches:
       - devops-build
   pull_request:
-
+  
+  permissions:
+    issues: write
+    pull-requests: write
+    contents: write
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+
     timeout-minutes: 360 # Set the timeout to 6 hours
-    permissions:
-      issues: write
-      pull-requests: write
-      contents: write
+
     strategy:
       matrix:
         os: [macos-latest, windows-latest]

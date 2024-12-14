@@ -39,7 +39,10 @@ jobs:
 
       - name: Install dependencies
         run: NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
+             npm audit fix
+             npm update
              npm install
+
 
       - name: Build the application
         run: npm run make

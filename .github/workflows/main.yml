@@ -9,7 +9,10 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 360 # Set the timeout to 6 hours
-
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
@@ -36,7 +39,9 @@ jobs:
       - name: Install dependencies
         run: NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
              npm install
- 
+     permissions:
+      issues: write
+      pull-requests: write
 
       - name: Build the application
         run: npm run make

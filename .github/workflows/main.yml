@@ -31,12 +31,9 @@ jobs:
         run: |
           python3 -m ensurepip
           python3 -m pip install setuptools
-      - name: Set Python for npm
-        run: npm config set python /usr/bin/python3
-
 
       - name: Install dependencies
-        run: npm install --save-dev appdmg
+        run: NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
              npm install
  
 

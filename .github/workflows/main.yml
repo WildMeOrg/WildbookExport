@@ -5,10 +5,10 @@ on:
       - devops-build
   pull_request:
   
-  permissions:
-    issues: write
-    pull-requests: write
-    contents: write
+permissions:
+  issues: write
+  pull-requests: write
+  contents: write
 
 jobs:
   build:

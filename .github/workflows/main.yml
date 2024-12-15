@@ -40,18 +40,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-             if [ "${{ matrix.os }}" == "windows-latest" ]; then
-                  $env:NODE_GYP_FORCE_PYTHON = (Get-Command python | Select-Object -ExpandProperty Path)
-                  npm install --save-dev appdmg
-                  npm audit fix
-                  npm update
-                  npm install
-                else
-                  NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
-                  npm audit fix
-                  npm update
-                  npm install
-                fi
+          if [ "${{ matrix.os }}" == "windows-latest" ]; then
+            npm config set python "$(Get-Command python | Select-Object -ExpandProperty Path)"
+            npm audit fix
+            npm update
+            npm install
+          else
+            NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
+            npm audit fix
+            npm update
+            npm install
+          fi
                 
       - name: Build the application
         run: npm run make

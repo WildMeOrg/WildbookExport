@@ -40,8 +40,8 @@ jobs:
 
       - name: Install dependencies in Windows
         shell: powershell
+        if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          if [ "${{ matrix.os }}" == "windows-latest" ]; then
             npm config set python "$(Get-Command python | Select-Object -ExpandProperty Path)"
             npm audit fix
             npm update
@@ -49,13 +49,13 @@ jobs:
 
       - name: Install dependencies in Mac
         shell: bash
+        if: ${{ matrix.os == 'mac-latest' }}
         run: |
-          if [ "${{ matrix.os }}" == "mac-latest" ]; then
             NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
             npm audit fix
             npm update
             npm install
-          fi
+
                 
       - name: Build the application
         run: npm run make

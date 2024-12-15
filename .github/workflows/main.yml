@@ -55,7 +55,13 @@ jobs:
                 
       - name: Build the application
         run: npm run make
+        
+      - name: List win output directory
+        shell: cmd
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: dir out\make
 
+  
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:

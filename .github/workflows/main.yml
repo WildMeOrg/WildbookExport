@@ -15,6 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 360 # Set the timeout to 6 hours
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, windows-latest]
 

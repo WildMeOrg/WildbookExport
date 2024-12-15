@@ -49,7 +49,7 @@ jobs:
 
       - name: Install dependencies in Mac
         shell: bash
-        if: ${{ matrix.os == 'mac-latest' }}
+        if: ${{ matrix.os == 'macos-latest' }}
         run: |
             NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
             npm audit fix

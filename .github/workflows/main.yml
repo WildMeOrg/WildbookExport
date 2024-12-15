@@ -43,18 +43,14 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
             $env:NODE_GYP_FORCE_PYTHON = (Get-Command python | Select-Object -ExpandProperty Path)
-            npm audit fix
-            npm update
-            npm install
+            npm install --no-audit
 
       - name: Install dependencies in Mac
         shell: bash
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-            NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
-            npm audit fix
-            npm update
-            npm install
+            NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg --no-audit
+            npm install --no-audit
 
                 
       - name: Build the application

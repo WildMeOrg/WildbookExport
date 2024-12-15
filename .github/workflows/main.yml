@@ -39,12 +39,20 @@ jobs:
           python3 -m pip install setuptools
 
       - name: Install dependencies
-        run: NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
-             npm audit fix
-             npm update
-             npm install
-
-
+        run: |
+             if [ "${{ matrix.os }}" == "windows-latest" ]; then
+                  $env:NODE_GYP_FORCE_PYTHON = (Get-Command python | Select-Object -ExpandProperty Path)
+                  npm install --save-dev appdmg
+                  npm audit fix
+                  npm update
+                  npm install
+                else
+                  NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
+                  npm audit fix
+                  npm update
+                  npm install
+                fi
+                
       - name: Build the application
         run: npm run make
 

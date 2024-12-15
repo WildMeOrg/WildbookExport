@@ -59,7 +59,7 @@ jobs:
       - name: List win output directory
         shell: cmd
         if: ${{ matrix.os == 'windows-latest' }}
-        run: dir out\make
+        run: dir out\make\squirrel.windows
 
   
       - name: Upload artifacts

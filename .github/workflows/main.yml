@@ -42,7 +42,7 @@ jobs:
         shell: powershell
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-            npm config set python "$(Get-Command python | Select-Object -ExpandProperty Path)"
+            $env:NODE_GYP_FORCE_PYTHON = (Get-Command python | Select-Object -ExpandProperty Path)
             npm audit fix
             npm update
             npm install

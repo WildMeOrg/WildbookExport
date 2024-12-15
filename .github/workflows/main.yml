@@ -38,14 +38,19 @@ jobs:
           python3 -m ensurepip
           python3 -m pip install setuptools
 
-      - name: Install dependencies
+      - name: Install dependencies in Windows
+        shell: powershell
         run: |
           if [ "${{ matrix.os }}" == "windows-latest" ]; then
             npm config set python "$(Get-Command python | Select-Object -ExpandProperty Path)"
             npm audit fix
             npm update
             npm install
-          else
+
+      - name: Install dependencies in Mac
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" == "mac-latest" ]; then
             NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg
             npm audit fix
             npm update

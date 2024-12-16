@@ -67,6 +67,6 @@ jobs:
         with:
           name: ${{ matrix.os }}-installer
           path: |
-            out/make/*.exe
+            out\make\squirrel.windows\x64\*.exe
             out/make/*.dmg
 

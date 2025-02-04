@@ -57,7 +57,8 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
-          npm install --save-dev @electron-forge/maker-deb
+          NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev @electron-forge/maker-deb
+          NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev @electron-forge/maker-rpm
           NODE_GYP_FORCE_PYTHON=$(which python3) npm install --no-audit
 
       - name: Build the application

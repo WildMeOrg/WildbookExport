@@ -58,6 +58,7 @@ jobs:
         shell: bash
         run: |
           NODE_GYP_FORCE_PYTHON=$(which python3) npm install --no-audit
+npm install --save-dev @electron-forge/maker-deb
 
       - name: Build the application
         run: npm run make

@@ -31,16 +31,13 @@ const config: ForgeConfig = {
     new MakerDMG({ name: "WildEx", icon: icon_path + ".icns", overwrite: true }),
     // new MakerZIP({}),
     new MakerDeb({
-          config: {
-            options: {
-              icon: icon_path + ".icns",
-              // Optionally add other properties that electron-installer-debian accepts,
-              // for example:
-              // maintainer: "Your Name <you@example.com>",
-              // homepage: "https://www.wildme.org",
-            },
-          },
-        }),
+      options: {
+        icon: icon_path + ".icns",
+        // Optionally, add other supported options such as:
+        // maintainer: "Your Name <you@example.com>",
+        // homepage: "https://yourapphomepage.com",
+      },
+    }),
     // new MakerZIP({}),
   ],
   plugins: [

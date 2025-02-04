@@ -31,6 +31,9 @@ const config: ForgeConfig = {
     new MakerDMG({ name: "WildEx", icon: icon_path + ".icns", overwrite: true }),
     // new MakerZIP({}),
   ],
+    new MakerDeb({ name: "WildEx", icon: icon_path + ".icns", overwrite: true }),
+    // new MakerZIP({}),
+  ],
   plugins: [
     new WebpackPlugin({
       mainConfig,

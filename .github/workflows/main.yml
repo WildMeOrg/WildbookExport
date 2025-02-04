@@ -1,0 +1,101 @@
+name: Build Wildbook Installers
+on:
+  push:
+    branches:
+      - devops-build
+  pull_request:
+
+permissions:
+  issues: write
+  pull-requests: write
+  contents: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 360 # Set the timeout to 6 hours
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Ensure setuptools is installed
+        run: |
+          python3 -m ensurepip
+          python3 -m pip install setuptools
+
+      - name: Install dependencies in Windows
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: powershell
+        run: |
+          $env:NODE_GYP_FORCE_PYTHON = (Get-Command python | Select-Object -ExpandProperty Path)
+          npm install --no-audit
+
+      - name: Install dependencies in Mac
+        if: ${{ matrix.os == 'macos-latest' }}
+        shell: bash
+        run: |
+          NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev appdmg --no-audit
+          npm install --no-audit
+
+      - name: Install dependencies in Linux
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        shell: bash
+        run: |
+          NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev @electron-forge/maker-deb
+          NODE_GYP_FORCE_PYTHON=$(which python3) npm install --save-dev @electron-forge/maker-rpm
+          NODE_GYP_FORCE_PYTHON=$(which python3) npm install --no-audit
+
+      - name: Build the application
+        run: npm run make
+
+      - name: List Windows output directory
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: cmd
+        run: dir out\make\squirrel.windows\x64
+
+      - name: List Mac output directory
+        if: ${{ matrix.os == 'macos-latest' }}
+        shell: bash
+        run: ls -l out/make
+
+      - name: List Linux output directory
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        shell: bash
+        run: ls -lR out/make
+
+      - name: Upload Windows artifacts
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: out\make\squirrel.windows\x64\*.exe
+
+      - name: Upload Mac artifacts
+        if: ${{ matrix.os == 'macos-latest' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-installer
+          path: out/make/*.dmg
+
+      - name: Upload Linux artifacts
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-installer
+          path: out/make/deb/x64/*.deb
